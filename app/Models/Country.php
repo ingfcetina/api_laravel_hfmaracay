@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,11 +18,9 @@ class Country extends Model
         'iso2', 'iso3', 'prefix', 'name', 'continent', 'subcontinent', 'iso_currency', 'name_currency', 'flag'
     ];
 
-    /**
-     * Get the users that owns the country.
-     */
-    public function users()
+
+    public function profile()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Profile::class);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,8 +20,8 @@ class Area extends Model
     /**
      * Get the users that owns the economic activity.
      */
-    public function users()
+    public function profile()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Profile::class);
     }
 }

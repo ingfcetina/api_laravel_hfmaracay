@@ -3,19 +3,15 @@
 namespace App\Queries;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
-class UserFilter extends QueryFilter
+class ArticleFilter extends QueryFilter
 {
     public function rules(): array
     {
         return [
             'search' => 'filled',
             'from' => 'date_format:d/m/Y',
-            'to' => 'date_format:d/m/Y',
-            'role' => ['filled', Rule::exists('bouncer_roles', 'id')]
+            'to' => 'date_format:d/m/Y'
         ];
     }
 
@@ -25,14 +21,7 @@ class UserFilter extends QueryFilter
             return $query;
         }
 
-        return $query->where('name', 'like', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhereHas('profile', function ($query) use ($search) {
-                $query->where('city', 'like', "%{$search}%")
-                    ->orWhereHas('country', function ($query) use ($search) {
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-            });
+        return $query->where('title', 'like', "%{$search}%");
     }
 
     public function from($query, $date)
