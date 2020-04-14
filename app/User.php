@@ -2,16 +2,22 @@
 
 namespace App;
 
+use App\Models\Area;
+use App\Models\Article;
+use App\Models\Country;
+use App\Models\Profile;
+use Silber\Bouncer\Bouncer;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Queries\QueryFilter;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, SoftDeletes;
+    use HasApiTokens, Notifiable, SoftDeletes,HasRolesAndAbilities;
 
     /**
      * The attributes that are mass assignable.
@@ -19,22 +25,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'last_name',
-        'email',
-        'password',
-        'phone',
-        'birth_date',
-        'city',
-        'state',
-        'country_id',
-        'area_id',
-        'level',
-        'linkedin',
-        'facebook',
-        'twitter',
-        'instagram'
+        'name', 'email', 'password',
     ];
+
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -54,21 +48,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Get the country that owns the profile.
-     */
-    public function country()
+    public function profile()
     {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
+        return $this->hasOne(Profile::class);
     }
 
     public function scopeFilterBy($query, QueryFilter $filters, array $data)
     {
         return $filters->applyTo($query, $data);
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
     }
 }

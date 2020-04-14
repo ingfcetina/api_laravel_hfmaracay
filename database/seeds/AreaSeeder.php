@@ -1,6 +1,6 @@
 <?php
 
-use App\Area;
+use App\Models\Area;
 use Illuminate\Database\Seeder;
 
 class AreaSeeder extends Seeder
@@ -12,20 +12,13 @@ class AreaSeeder extends Seeder
      */
     public function run()
     {
-        factory(Area::class)->create([
-        	'name' => 'Programación'
-        ]);
+        $areas = ["Programación","Emprendimiento","Marketing","Diseño"];
 
-        factory(Area::class)->create([
-        	'name' => 'Emprendimiento'
-        ]);
+        foreach($areas as $area) {
+            Area::create([
+                "name" => $area
+            ]);
+        }
 
-        factory(Area::class)->create([
-        	'name' => 'Marketing'
-        ]);
-
-        factory(Area::class)->create([
-        	'name' => 'Diseño'
-        ]);
     }
 }
